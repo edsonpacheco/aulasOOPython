@@ -12,7 +12,7 @@ def main():
     # O Python assume limiar=25.0 e intervalo=10
     processar_sensor(3103) 
 
-    # O Python segue a ordem: id_sensor=3104, limiar=30.5, intervalo=10 (padrão)
+    # O Python segue a ordem: id_sensor=3104, limiar=30.5, intervalo=10
     processar_sensor(3104, 30.5)
 
     # 3. Chamada Definindo todos os parâmetros
