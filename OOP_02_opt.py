@@ -1,6 +1,5 @@
 """
-Exemplo de Parâmetros Opcionais - Disciplina de Python (UFPR)
-Objetivo: Demonstrar a definição de valores padrão e a flexibilidade nas chamadas.
+Exemplo de Parâmetros Opcionais 
 """
 # REGRA DE OURO: Parâmetros obrigatórios (id_sensor) sempre vêm PRIMEIRO.
 # Parâmetros opcionais (limiar, intervalo) vêm depois com um valor padrão.
