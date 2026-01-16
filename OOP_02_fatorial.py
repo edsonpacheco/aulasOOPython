@@ -1,5 +1,5 @@
 def fatorial(n):
-    # CASO BASE: Impede a recursão infinita e o estouro da pilha
+    # CASO BASE: Impede a recursão infinita
     if n <= 1:
         return 1
     
@@ -9,8 +9,8 @@ def fatorial(n):
 def main():
     numero = 5
     resultado = fatorial(numero)
-    print(f"O fatorial de {numero} é: {resultado}")
-    # Diferente do C/C++, o Python não sofrerá overflow aqui
+    print(f"Fatorial de {numero} é {resultado}")
+    # O Python não sofrerá overflow aqui
     print(f"Fatorial de 50: {fatorial(50)}")
 
 if __name__ == "__main__":
