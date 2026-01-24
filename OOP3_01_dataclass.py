@@ -27,7 +27,6 @@ def calcular_custo(v: Veiculo, e: Estacao):
 def main():
     v1 = Veiculo("BYD Dolphin", 44.9, .20)
     e1 = Estacao("Eletroposto UFPR", 7.0, 0.80)
-
     t = calcular_tempo(v1, e1)
     print(f"Tempo de carga para {v1.modelo} na {e1.nome}: {t:.2f} horas")
 
