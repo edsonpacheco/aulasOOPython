@@ -1,0 +1,109 @@
+"""
+Máquina de Estados - Torniquete (Catraca)
+=========================================
+Exemplo clássico e didático com apenas 2 estados e 2 eventos.
+Estados: Travado, Destravado
+Eventos: moeda, empurrar
+"""
+
+from abc import ABC, abstractmethod
+# =============================================================================
+# INTERFACE DE ESTADO
+# =============================================================================
+class Estado(ABC):
+    """Interface para os estados do torniquete."""
+    
+    @abstractmethod
+    def moeda(self, torniquete: 'Torniquete') -> None:
+        """Evento: usuário insere moeda."""
+        pass
+    
+    @abstractmethod
+    def empurrar(self, torniquete: 'Torniquete') -> None:
+        """Evento: usuário empurra a catraca."""
+        pass
+    
+    def __str__(self) -> str:
+        return self.__class__.__name__
+
+
+# =============================================================================
+# ESTADOS CONCRETOS
+# =============================================================================
+
+class Travado(Estado):
+    """Estado: torniquete bloqueado."""
+    
+    def moeda(self, torniquete: 'Torniquete') -> None:
+        print("🪙 Moeda aceita!")
+        print("🔓 Destravando...")
+        torniquete._estado = Destravado()
+    
+    def empurrar(self, torniquete: 'Torniquete') -> None:
+        print("🚫 Bloqueado! Insira uma moeda.")
+        print("🔔 ALARME!")
+
+
+class Destravado(Estado):
+    """Estado: torniquete liberado para passagem."""
+    
+    def moeda(self, torniquete: 'Torniquete') -> None:
+        print("🪙 Moeda extra ignorada (já destravado).")
+    
+    def empurrar(self, torniquete: 'Torniquete') -> None:
+        print("🚶 Passagem liberada!")
+        print("🔒 Travando...")
+        torniquete._estado = Travado()
+
+
+# =============================================================================
+# CONTEXTO
+# =============================================================================
+class Torniquete:
+    """Contexto: representa o torniquete físico."""
+    
+    def __init__(self):
+        self._estado: Estado = Travado()
+        print("═" * 40)
+        print("  TORNIQUETE INICIADO")
+        print("═" * 40)
+    
+    @property
+    def estado(self) -> str:
+        return str(self._estado)
+    
+    def moeda(self) -> None:
+        print(f"\n[Estado: {self._estado}] → Evento: MOEDA")
+        self._estado.moeda(self)
+        print(f"[Novo estado: {self._estado}]")
+    
+    def empurrar(self) -> None:
+        print(f"\n[Estado: {self._estado}] → Evento: EMPURRAR")
+        self._estado.empurrar(self)
+        print(f"[Novo estado: {self._estado}]")
+
+# =============================================================================
+# DEMONSTRAÇÃO
+# =============================================================================
+def demo():
+    t = Torniquete()
+    
+    print("\n--- Cenário 1: Fluxo normal ---")
+    t.moeda()      # Travado → Destravado
+    t.empurrar()   # Destravado → Travado
+    
+    print("\n--- Cenário 2: Empurrar sem pagar ---")
+    t.empurrar()   # Travado → Travado (alarme!)
+    
+    print("\n--- Cenário 3: Moeda extra ---")
+    t.moeda()      # Travado → Destravado
+    t.moeda()      # Destravado → Destravado (ignora)
+    t.empurrar()   # Destravado → Travado
+    
+    print("\n" + "═" * 40)
+    print("  FIM DA DEMONSTRAÇÃO")
+    print("═" * 40)
+
+
+if __name__ == "__main__":
+    demo()
