@@ -6,7 +6,6 @@ from sklearn.metrics import classification_report
 
 if __name__ == "__main__":
     print("Iniciando Etapa 3: Inteligência de Rede...")
-
     # 1. Carregamento e Downsampling (10% dos dados)
     # O parâmetro low_memory=False é essencial para bases de engenharia em 2026
     df = pd.read_csv('dados_smart_grid/household_power_consumption.txt', 
