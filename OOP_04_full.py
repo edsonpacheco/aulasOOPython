@@ -5,7 +5,7 @@ Herança e Polimorfismo em Python
 Exemplos completos para a aula de POO.
 
 Autor: Prof. Edson José Pacheco
-Disciplina: TE328 - Engenharia de Software
+Disciplina: TE328 
 """
 
 from abc import ABC, abstractmethod
