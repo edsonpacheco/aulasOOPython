@@ -40,6 +40,7 @@ if __name__ == "__main__":
     print("Sistema de Monitoramento Distribuído UFPR - v3")
     cores = os.cpu_count()
     print(f"Cores detectados: {cores}")
+    
 
     # 1. Carga e tratamento inicial dos dados
     # Certifique-se de que o caminho do arquivo e o nome das colunas estejam corretos
