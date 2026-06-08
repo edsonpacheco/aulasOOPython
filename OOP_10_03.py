@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import multiprocessing
-# modificado em 8/6
+
 def pipeline_diagnostico(df_set):
     """
     Executa a engenharia de recursos e avalia os alertas de forma vetorizada.
@@ -18,7 +18,7 @@ def pipeline_diagnostico(df_set):
     return alertas
 
 if __name__ == "__main__":
-    print("Sistema de Monitoramento Distribuído UFPR - 2026")
+    print("Sistema de Monitoramento Distribuído UFPR - v2")
     cores = os.cpu_count()
     print(f"Cores detectados: {cores}")
 
