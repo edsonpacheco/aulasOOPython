@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 import multiprocessing
-
+# modificado em 8/6
 def pipeline_diagnostico(df_set):
     """
     Executa a engenharia de recursos e avalia os alertas de forma vetorizada.
