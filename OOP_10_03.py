@@ -1,34 +1,38 @@
 import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
-import multiprocessing
 import os
+import multiprocessing
 
-# Função que encapsula o conhecimento do Engenheiro (Pipeline)
 def pipeline_diagnostico(df_set):
-    # Engenharia de Recursos
-    df_set['V_RMS'] = df_set['Voltage'].rolling(window=10, min_periods=1).apply(
-        lambda x: np.sqrt(np.mean(x**2))
-    )
+    """
+    Executa a engenharia de recursos e avalia os alertas de forma vetorizada.
+    """
+    # Cria uma cópia para evitar o aviso SettingWithCopyWarning do pandas
+    df_local = df_set.copy()
     
-    # Simulação de Classificação baseada no modelo treinado anteriormente
-    # (Em um sistema real, o objeto 'modelo' seria carregado aqui)
-    alertas = (df_set['V_RMS'] < 232).sum()
+    # Substituição da função lambda por operação vetorizada para permitir a serialização (pickle)
+    df_local['V_RMS'] = np.sqrt((df_local['Voltage'] ** 2).rolling(window=10, min_periods=1).mean())
+    
+    # Contagem de alertas baseada na condição estabelecida
+    alertas = int((df_local['V_RMS'] < 232).sum())
     return alertas
 
 if __name__ == "__main__":
-    print(f"Sistema de Monitoramento Distribuído UFPR - 2026")
-    print(f"Cores detectados: {os.cpu_count()}")
+    print("Sistema de Monitoramento Distribuído UFPR - 2026")
+    cores = os.cpu_count()
+    print(f"Cores detectados: {cores}")
 
-    # 1. Carga e Particionamento (Simulando 4 subestações diferentes)
+    # 1. Carga e tratamento inicial dos dados
+    # Certifique-se de que o caminho do arquivo e o nome das colunas estejam corretos
     df = pd.read_csv('dados_smart_grid/household_power_consumption.txt', 
-                    sep=';', na_values=['?'], nrows=200000, low_memory=False)
-    df.dropna(inplace=True)
+                     sep=';', na_values=['?'], nrows=200000, low_memory=False)
+    df.dropna(subset=['Voltage'], inplace=True)
+    df['Voltage'] = pd.to_numeric(df['Voltage'])
     
-    # Dividindo o dataframe em 4 partes para processamento paralelo
+    # Dividindo o dataframe em 4 partes de forma compatível
     subestacoes = np.array_split(df, 4)
 
-    # 2. Execução Paralela (O pulo do gato)
+    # 2. Execução Paralela
     with multiprocessing.Pool(processes=4) as pool:
         print("Iniciando análise paralela das subestações...")
         resultados = pool.map(pipeline_diagnostico, subestacoes)
